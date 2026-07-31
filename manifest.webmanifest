@@ -1,0 +1,42 @@
+{
+  "name": "weNutri | Ficha de indicação",
+  "short_name": "weNutri",
+  "description": "Ficha de indicação de produtos weNutri para nutricionistas parceiras.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FDFAFB",
+  "theme_color": "#FDFAFB",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "icone-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icone-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icone-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "id": "/",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "categories": [
+    "health",
+    "medical",
+    "productivity"
+  ]
+}

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-BR" style="background:#FDFAFB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>weNutri | Ficha de indicação de produtos</title>
+<meta name="description" content="Ficha de indicação de produtos weNutri para nutricionistas parceiras.">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#FDFAFB">
+<meta name="color-scheme" content="light only">
+<link rel="icon" href="icone-192.png">
+<link rel="apple-touch-icon" href="icone-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="weNutri">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+html{color-scheme:only light}
+:root{
+  --tinta:#2A1B33;
+  --tinta-suave:#6A5573;
+  --papel:#FDFAFB;
+  --uva:#4E2A5E;
+  --petala:#B31A64;
+  --petala-clara:#FBECF2;
+  --linha:#E9DFE4;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html,body{background:#FDFAFB!important;color:#2A1B33!important}
+body{
+  background:var(--papel);color:var(--tinta);
+  font-family:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:16px;line-height:1.5;padding:0 0 140px;
+}
+.folha{max-width:780px;margin:0 auto;padding:26px 20px 0}
+
+.marca{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--linha);padding-bottom:14px}
+.marca b{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:29px;letter-spacing:-.02em}
+.marca b i{font-style:normal;color:var(--petala)}
+.marca span{font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta-suave)}
+h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:27px;line-height:1.15;letter-spacing:-.02em;margin:26px 0 6px}
+.linha-fina{font-size:15px;color:var(--tinta-suave);margin:0 0 26px;max-width:56ch}
+
+.grade{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+.campo{display:flex;flex-direction:column;gap:5px}
+.campo.largo{grid-column:1/-1}
+.campo label,.uso label,.rotulo{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta-suave)}
+input[type=text],input[type=date],textarea{
+  font:inherit;color:var(--tinta);background:#fff;color-scheme:light;
+  border:1px solid var(--linha);border-radius:2px;padding:10px 12px;width:100%;
+}
+input:focus,textarea:focus{outline:2px solid var(--petala);outline-offset:1px;border-color:var(--petala)}
+textarea{min-height:86px;resize:vertical}
+
+.faixa{display:flex;align-items:center;gap:12px;margin:32px 0 6px}
+.faixa h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:15px;letter-spacing:.02em;margin:0;white-space:nowrap;text-transform:uppercase;color:var(--uva)}
+.faixa i{flex:1;height:1px;background:var(--linha);display:block}
+
+.item{border-bottom:1px solid var(--linha)}
+.toque{display:flex;align-items:center;gap:14px;padding:13px 6px;cursor:pointer;user-select:none}
+.toque:hover{background:#fff}
+.toque input{position:absolute;opacity:0;width:0;height:0}
+.marca-caixa{flex:0 0 auto;width:26px;height:26px;border:1.5px solid var(--tinta-suave);border-radius:3px;background:#fff;position:relative;transition:.15s}
+.marca-caixa::after{
+  content:"";position:absolute;inset:0;margin:auto;width:13px;height:13px;
+  background:#fff;opacity:0;transform:scale(.4);transition:.15s;border-radius:13px 0 13px 0;
+}
+.toque input:checked ~ .marca-caixa{background:var(--petala);border-color:var(--petala)}
+.toque input:checked ~ .marca-caixa::after{opacity:1;transform:scale(1)}
+.toque input:focus-visible ~ .marca-caixa{outline:2px solid var(--tinta);outline-offset:2px}
+.nome{flex:1;font-size:16.5px}
+.preco{font-size:13.5px;color:var(--tinta-suave);white-space:nowrap}
+.tag{
+  display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--uva);color:var(--uva);border-radius:2px;padding:2px 6px;margin-left:8px;vertical-align:1px;
+}
+.item.ativo{background:var(--petala-clara)}
+.item.ativo .nome{font-weight:500}
+.uso{display:none;padding:0 6px 14px 46px}
+.item.ativo .uso{display:flex;flex-direction:column;gap:4px}
+.uso .topo{display:flex;align-items:baseline;gap:10px}
+.uso .voltar{font-size:11px;color:var(--petala);background:none;border:none;padding:0;text-decoration:underline;cursor:pointer}
+.uso .voltar:hover{background:none;color:var(--uva)}
+
+.barra{position:fixed;left:0;right:0;bottom:0;background:#fff;color:var(--tinta);border-top:1px solid var(--linha);padding:11px 20px;box-shadow:0 -6px 22px rgba(42,27,51,.08)}
+.barra-int{max-width:780px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.contador{font-size:13px;color:var(--tinta-suave);margin-right:auto}
+.contador b{color:var(--petala);font-size:17px;font-family:"Fraunces",Georgia,serif}
+button{font:inherit;font-weight:500;font-size:14px;cursor:pointer;border:1px solid var(--tinta);background:#fff;color:var(--tinta);border-radius:2px;padding:10px 15px;transition:.15s}
+button:hover{background:var(--tinta);color:#fff}
+button.forte{background:var(--petala);border-color:var(--petala);color:#fff}
+button.forte:hover{background:var(--tinta);border-color:var(--tinta)}
+button.leve{border-color:var(--linha);color:var(--tinta-suave)}
+.opcao{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--tinta-suave);width:100%}
+.opcao input{width:16px;height:16px;accent-color:var(--petala)}
+.aviso{display:none;font-size:13px;color:var(--uva)}
+.rodape{font-size:12px;color:var(--tinta-suave);margin:36px 0 0;border-top:1px solid var(--linha);padding-top:14px}
+
+/* trava o tema claro mesmo quando o celular está no modo escuro */
+@media (prefers-color-scheme:dark){
+  html,body{background:#FDFAFB!important;color:#2A1B33!important}
+  .marca b,h1,.nome,.faixa h2,.caixa h3,.caixa,.caixa ol{color:#2A1B33!important}
+  .marca b i{color:#B31A64!important}
+  .faixa h2,.caixa h4{color:#4E2A5E!important}
+  .linha-fina,.campo label,.uso label,.rotulo,.preco,.rodape,.contador,.tira span{color:#6A5573!important}
+  input[type=text],input[type=date],textarea{
+    background:#fff!important;color:#2A1B33!important;-webkit-text-fill-color:#2A1B33!important;
+    border-color:#E9DFE4!important;
+  }
+  .toque:hover,.barra,.caixa,.tira,.marca-caixa{background:#fff!important}
+  .item.ativo{background:#FBECF2!important}
+  .toque input:checked ~ .marca-caixa{background:#B31A64!important}
+  button{background:#fff!important;color:#2A1B33!important;border-color:#2A1B33!important}
+  button.forte{background:#B31A64!important;color:#fff!important;border-color:#B31A64!important}
+  button.leve{color:#6A5573!important;border-color:#E9DFE4!important}
+  .tira .texto,.uso .voltar{background:none!important;color:#B31A64!important}
+  .tira .x{background:none!important;color:#6A5573!important}
+  .item,.faixa i,.rodape,.barra{border-color:#E9DFE4!important}
+}
+
+/* tira e janela de instalação */
+.tira{
+  display:none;align-items:center;gap:10px;flex-wrap:wrap;
+  background:#fff;border:1px solid var(--linha);border-left:3px solid var(--petala);
+  padding:11px 13px;margin:0 0 4px;font-size:14px;
+}
+.tira.ativa{display:flex}
+.tira span{flex:1;min-width:180px;color:var(--tinta-suave)}
+.tira button{padding:7px 12px;font-size:13px}
+.tira .texto{border:none;color:var(--petala);text-decoration:underline;padding:7px 2px}
+.tira .texto:hover{background:none;color:var(--uva)}
+.tira .x{border:none;color:var(--tinta-suave);font-size:18px;line-height:1;padding:4px 6px}
+.tira .x:hover{background:none;color:var(--tinta)}
+.janela{
+  display:none;position:fixed;inset:0;z-index:20;
+  background:rgba(42,27,51,.55);padding:20px;overflow:auto;
+}
+.janela.ativa{display:flex;align-items:flex-start;justify-content:center}
+.caixa{background:#fff;color:var(--tinta);max-width:520px;width:100%;margin:auto;padding:24px;border-radius:3px}
+.caixa h3{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:20px;margin:0 0 4px}
+.caixa p.sub{color:var(--tinta-suave);font-size:14px;margin:0 0 18px}
+.caixa h4{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--uva);margin:18px 0 6px}
+.caixa ol{margin:0;padding-left:20px;font-size:15px}
+.caixa ol li{margin-bottom:4px}
+.caixa .fim{margin-top:22px;text-align:right}
+
+/* ===== folha de impressão / PDF ===== */
+#impressao{display:none}
+@media print{
+  @page{size:A4;margin:16mm 15mm}
+  body{background:#fff;padding:0;font-size:11pt}
+  .folha,.barra,.janela,.tira{display:none!important}
+  #impressao{display:block}
+  .pr-marca{display:flex;align-items:baseline;gap:9px;border-bottom:1.5px solid #2A1B33;padding-bottom:7px}
+  .pr-marca b{font-family:"Fraunces",Georgia,serif;font-size:20pt;font-weight:600}
+  .pr-marca span{font-size:7.5pt;letter-spacing:.12em;text-transform:uppercase}
+  .pr-titulo{font-family:"Fraunces",Georgia,serif;font-size:14pt;margin:14pt 0 10pt}
+  .pr-meta{width:100%;border-collapse:collapse;margin-bottom:14pt}
+  .pr-meta td{padding:3pt 0;vertical-align:top;font-size:10.5pt}
+  .pr-meta td:first-child{width:31mm;font-size:7.5pt;letter-spacing:.1em;text-transform:uppercase;color:#555;padding-top:5pt}
+  .pr-secao{font-size:8pt;letter-spacing:.12em;text-transform:uppercase;margin:12pt 0 3pt;border-bottom:.5pt solid #999;padding-bottom:2pt}
+  .pr-item{display:flex;gap:7pt;padding:3.5pt 0;page-break-inside:avoid}
+  .pr-cx{flex:0 0 auto;width:10pt;height:10pt;border:1pt solid #2A1B33;margin-top:2pt;text-align:center;line-height:9pt;font-size:9pt}
+  .pr-nome{flex:1}
+  .pr-uso{display:block;font-size:9pt;color:#444}
+  .pr-obs{margin-top:14pt;page-break-inside:avoid}
+  .pr-obs .pr-secao{margin-top:0}
+  .pr-assina{margin-top:26pt;page-break-inside:avoid}
+  .pr-assina div{border-top:.5pt solid #2A1B33;width:75mm;padding-top:4pt;font-size:9pt}
+  .pr-pe{margin-top:14pt;border-top:.5pt solid #bbb;padding-top:5pt;font-size:7.5pt;color:#555}
+}
+@media (max-width:560px){
+  .grade{grid-template-columns:1fr}
+  h1{font-size:23px}
+  .contador{width:100%;margin-bottom:2px}
+  .barra button{flex:1 1 45%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body style="background:#FDFAFB;color:#2A1B33">
+
+<div class="folha">
+
+  <div class="tira" id="tira">
+    <span>Deixe a ficha na tela do seu celular ou do computador.</span>
+    <button id="btInstalar">Instalar</button>
+    <button class="texto" id="btComo">como faço</button>
+    <button class="x" id="btFechaTira" aria-label="Fechar aviso">&times;</button>
+  </div>
+
+  <div class="marca">
+    <b>we<i>nutri</i></b>
+  </div>
+
+  <h1>Ficha de indicação de produtos</h1>
+  <p class="linha-fina">Marque os produtos indicados para a paciente. Toque outra vez na caixa para desmarcar. Ao final, salve em PDF ou envie pelo WhatsApp.</p>
+
+  <div class="grade">
+    <div class="campo">
+      <label for="nutri">Nutricionista</label>
+      <input type="text" id="nutri" placeholder="Nome completo">
+    </div>
+    <div class="campo">
+      <label for="crn">CRN</label>
+      <input type="text" id="crn" placeholder="CRN-0 00000">
+    </div>
+    <div class="campo">
+      <label for="paciente">Paciente</label>
+      <input type="text" id="paciente" placeholder="Nome da paciente">
+    </div>
+    <div class="campo">
+      <label for="data">Data</label>
+      <input type="date" id="data">
+    </div>
+  </div>
+
+  <div id="catalogo"></div>
+
+  <div class="campo largo" style="margin-top:30px">
+    <label for="obs">Observações gerais</label>
+    <textarea id="obs" placeholder="Tempo de uso, horários, cuidados, data de retorno."></textarea>
+  </div>
+
+  <p class="rodape">weNutri | wenutrimilena.com<br>
+  Ficha de indicação de uso de suplementos alimentares. Não substitui prescrição médica nem laudo.</p>
+
+</div>
+
+<div class="barra">
+  <div class="barra-int">
+    <span class="contador"><b id="qtd">0</b> produtos marcados</span>
+    <span class="aviso" id="aviso"></span>
+    <button class="leve" id="limpar">Limpar</button>
+    <button id="copiar">Copiar</button>
+    <button class="forte" id="pdf">Salvar em PDF</button>
+    <button id="zap">WhatsApp</button>
+    <label class="opcao"><input type="checkbox" id="tudo"> Incluir no PDF os produtos não marcados</label>
+  </div>
+</div>
+
+<div class="janela" id="janela" role="dialog" aria-modal="true" aria-labelledby="tituloJanela">
+  <div class="caixa">
+    <h3 id="tituloJanela">Instalar a ficha</h3>
+    <p class="sub">Depois de instalada, a ficha abre em tela cheia e funciona sem internet.</p>
+
+    <h4>iPhone e iPad</h4>
+    <ol>
+      <li>Abra este endereço no Safari</li>
+      <li>Toque no botão de compartilhar, o quadrado com a seta para cima</li>
+      <li>Escolha Adicionar à Tela de Início</li>
+      <li>Toque em Adicionar</li>
+    </ol>
+
+    <h4>Android</h4>
+    <ol>
+      <li>Abra este endereço no Chrome</li>
+      <li>Toque nos três pontos do canto superior</li>
+      <li>Escolha Instalar aplicativo ou Adicionar à tela inicial</li>
+    </ol>
+
+    <h4>Computador</h4>
+    <ol>
+      <li>Abra este endereço no Chrome ou no Edge</li>
+      <li>Clique no ícone de instalar, na barra de endereço, ao lado da estrela</li>
+      <li>Confirme em Instalar. O atalho vai para a área de trabalho</li>
+    </ol>
+
+    <div class="fim"><button id="btFechaJanela">Entendi</button></div>
+  </div>
+</div>
+
+<div id="impressao"></div>
+
+<script>
+/* ================= CATÁLOGO ==================================
+   Para incluir, retirar ou renomear produtos, edite as linhas
+   abaixo. Deixe o preço em branco quando não quiser exibi-lo.
+   O campo uso é a sugestão padrão que aparece ao marcar o
+   produto. A nutricionista pode alterar caso a caso.
+   ============================================================ */
+const CATALOGO = [
+  { secao:"Emagrecimento", itens:[
+    { nome:"weBlend MAGRA (Fórmula E1)", preco:"",
+      uso:"4 cápsulas por dia, 30 minutos antes da principal refeição, ou 2 cápsulas 30 minutos antes do almoço e 2 antes do jantar" },
+    { nome:"weBlend Pós (Fórmula E2)", preco:"179,90",
+      uso:"2 cápsulas por dia, 30 minutos após o almoço" },
+    { nome:"weBlend Control (Fórmula E3)", preco:"149,90",
+      uso:"2 cápsulas no final da tarde ou após o café da manhã" },
+    { nome:"weBlend Day", preco:"139,90",
+      uso:"3 cápsulas por dia, em jejum" }
+  ]},
+  { secao:"Beleza", itens:[
+    { nome:"weBlend Beauty", preco:"169,90",
+      uso:"2 cápsulas após o almoço" },
+    { nome:"weBlend Shot", preco:"139,90",
+      uso:"3 cápsulas em jejum, pela manhã" }
+  ]},
+  { secao:"Sono e relaxamento", itens:[
+    { nome:"weBlend Sonhos", preco:"79,90",
+      uso:"10 gotas, 30 minutos antes de dormir" },
+    { nome:"weBlend Sweet Dreams", preco:"139,90",
+      uso:"1 scoop em 150 ml de água gelada à noite, antes de dormir" },
+    { nome:"weBlend TriMagnésio", preco:"69,90",
+      uso:"2 cápsulas, 30 minutos antes de dormir" }
+  ]},
+  { secao:"Energia e disposição", itens:[
+    { nome:"weBlend Energy", preco:"79,90",
+      uso:"2 cápsulas em jejum. Em caso de insônia, não tomar depois das 15h" },
+    { nome:"weNutri Clonapure (creatina)", preco:"149,90",
+      uso:"3 cápsulas, 30 minutos antes do treino" },
+    { nome:"weBlend Libido", preco:"79,90",
+      uso:"2 cápsulas em jejum" },
+    { nome:"weBlend TESTO+", preco:"", tag:"em breve",
+      uso:"4 cápsulas após o café da manhã" }
+  ]},
+  { secao:"Vitaminas", itens:[
+    { nome:"weBlend Polivitamínico", preco:"69,90",
+      uso:"2 cápsulas após o almoço" },
+    { nome:"weBlend Kids", preco:"89,90",
+      uso:"1 gominha após o almoço" },
+    { nome:"weBlend Vit. D3 + K2 + E", preco:"69,90",
+      uso:"20 gotas após o almoço" },
+    { nome:"weBlend Ferro + Vit. C", preco:"69,90",
+      uso:"1 cápsula antes de dormir" },
+    { nome:"weBlend B12 Gotas", preco:"69,90",
+      uso:"7 gotas em jejum" }
+  ]}
+];
+
+const $ = s => document.querySelector(s);
+const cat = $("#catalogo");
+
+CATALOGO.forEach((grupo, g) => {
+  const f = document.createElement("div");
+  f.className = "faixa";
+  f.innerHTML = '<h2></h2><i></i>';
+  f.querySelector("h2").textContent = grupo.secao;
+  cat.appendChild(f);
+
+  grupo.itens.forEach((prod, i) => {
+    const id = "p" + g + "-" + i;
+    const wrap = document.createElement("div");
+    wrap.className = "item";
+    wrap.dataset.secao = grupo.secao;
+    wrap.innerHTML =
+      '<label class="toque" for="'+id+'">' +
+        '<input type="checkbox" id="'+id+'">' +
+        '<span class="marca-caixa" aria-hidden="true"></span>' +
+        '<span class="nome"></span>' +
+        '<span class="preco"></span>' +
+      '</label>' +
+      '<div class="uso">' +
+        '<div class="topo"><label for="u-'+id+'">Como tomar</label>' +
+        (prod.uso ? '<button type="button" class="voltar">restaurar sugestão</button>' : "") +
+        '</div>' +
+        '<input type="text" id="u-'+id+'">' +
+      '</div>';
+    const nome = wrap.querySelector(".nome");
+    nome.textContent = prod.nome;
+    if(prod.tag){
+      const t = document.createElement("span");
+      t.className = "tag";
+      t.textContent = prod.tag;
+      nome.appendChild(t);
+    }
+    wrap.querySelector(".preco").textContent = prod.preco ? "R$ " + prod.preco : "";
+
+    const campoUso = wrap.querySelector(".uso input");
+    campoUso.placeholder = prod.uso ? "Como tomar" : "Definir posologia";
+    const padrao = prod.uso || "";
+    const restaurar = wrap.querySelector(".voltar");
+    if(restaurar) restaurar.addEventListener("click", () => { campoUso.value = padrao; });
+
+    const box = wrap.querySelector("input[type=checkbox]");
+    box.addEventListener("change", () => {
+      wrap.classList.toggle("ativo", box.checked);
+      if(box.checked && !campoUso.value.trim()) campoUso.value = padrao;
+      if(!box.checked && campoUso.value.trim() === padrao) campoUso.value = "";
+      contar();
+    });
+    cat.appendChild(wrap);
+  });
+});
+
+function lista(todos){
+  return [...document.querySelectorAll(".item")]
+    .filter(it => todos || it.classList.contains("ativo"))
+    .map(it => ({
+      secao: it.dataset.secao,
+      nome: it.querySelector(".nome").textContent,
+      preco: it.querySelector(".preco").textContent,
+      uso: it.querySelector(".uso input").value.trim(),
+      marcado: it.classList.contains("ativo")
+    }));
+}
+
+function contar(){
+  const n = lista(false).length;
+  $("#qtd").textContent = n;
+}
+
+function dataBR(v){
+  if(!v) return "";
+  const p = v.split("-");
+  return p[2] + "/" + p[1] + "/" + p[0];
+}
+
+function dados(){
+  return {
+    nutri: $("#nutri").value.trim(),
+    crn: $("#crn").value.trim(),
+    paciente: $("#paciente").value.trim(),
+    data: dataBR($("#data").value),
+    obs: $("#obs").value.trim()
+  };
+}
+
+/* ---------- texto para copiar e WhatsApp ---------- */
+function ficha(){
+  const d = dados(), itens = lista(false), L = [];
+  L.push("weNutri | Indicação de produtos");
+  if(d.paciente) L.push("Paciente: " + d.paciente);
+  if(d.nutri) L.push("Nutricionista: " + d.nutri + (d.crn ? " (" + d.crn + ")" : ""));
+  if(d.data) L.push("Data: " + d.data);
+  L.push("");
+  L.push(itens.length ? "Produtos indicados:" : "Nenhum produto marcado.");
+  itens.forEach(i => L.push("- " + i.nome + (i.uso ? " | " + i.uso : "")));
+  if(d.obs){ L.push(""); L.push("Observações: " + d.obs); }
+  return L.join("\n");
+}
+
+/* ---------- folha de impressão ---------- */
+function montarImpressao(){
+  const d = dados(), todos = $("#tudo").checked, itens = lista(todos);
+  const esc = t => String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+  let h = "";
+  h += '<div class="pr-marca"><b>wenutri</b></div>';
+  h += '<div class="pr-titulo">Ficha de indicação de produtos</div>';
+  h += '<table class="pr-meta">';
+  h += '<tr><td>Paciente</td><td>' + esc(d.paciente || "&nbsp;") + '</td></tr>';
+  h += '<tr><td>Nutricionista</td><td>' + esc(d.nutri) + (d.crn ? " &nbsp;|&nbsp; " + esc(d.crn) : "") + '</td></tr>';
+  h += '<tr><td>Data</td><td>' + esc(d.data) + '</td></tr>';
+  h += '</table>';
+
+  let secaoAtual = "";
+  if(!itens.length){
+    h += '<div class="pr-item"><div class="pr-nome">Nenhum produto marcado.</div></div>';
+  }
+  itens.forEach(i => {
+    if(i.secao !== secaoAtual){
+      h += '<div class="pr-secao">' + esc(i.secao) + '</div>';
+      secaoAtual = i.secao;
+    }
+    h += '<div class="pr-item">' +
+           '<div class="pr-cx">' + (i.marcado ? "&#10005;" : "&nbsp;") + '</div>' +
+           '<div class="pr-nome">' + esc(i.nome) +
+             (i.preco ? ' <span style="color:#666">' + esc(i.preco) + '</span>' : "") +
+             (i.uso ? '<span class="pr-uso">' + esc(i.uso) + '</span>' : "") +
+           '</div>' +
+         '</div>';
+  });
+
+  if(d.obs){
+    h += '<div class="pr-obs"><div class="pr-secao">Observações</div>' + esc(d.obs).replace(/\n/g,"<br>") + '</div>';
+  }
+  h += '<div class="pr-assina"><div>' + esc(d.nutri || "Nutricionista") + (d.crn ? " &nbsp;|&nbsp; " + esc(d.crn) : "") + '</div></div>';
+  h += '<div class="pr-pe">weNutri | wenutrimilena.com<br>Ficha de indicação de uso de suplementos alimentares. Não substitui prescrição médica nem laudo.</div>';
+
+  $("#impressao").innerHTML = h;
+
+  const nome = ["weNutri-indicacao", d.paciente.replace(/[^\wÀ-ÿ ]/g,"").trim().replace(/\s+/g,"-"), $("#data").value]
+    .filter(Boolean).join("-");
+  document.title = nome;
+}
+
+const TITULO = document.title;
+$("#pdf").addEventListener("click", () => { montarImpressao(); window.print(); });
+window.addEventListener("beforeprint", montarImpressao);
+window.addEventListener("afterprint", () => { document.title = TITULO; });
+
+$("#zap").addEventListener("click", () => {
+  window.open("https://wa.me/?text=" + encodeURIComponent(ficha()), "_blank");
+});
+
+$("#copiar").addEventListener("click", async () => {
+  const txt = ficha();
+  try{
+    await navigator.clipboard.writeText(txt);
+  }catch(e){
+    const t = document.createElement("textarea");
+    t.value = txt; document.body.appendChild(t); t.select();
+    document.execCommand("copy"); t.remove();
+  }
+  recado("Ficha copiada.");
+});
+
+$("#limpar").addEventListener("click", () => {
+  document.querySelectorAll(".item").forEach(it => {
+    it.classList.remove("ativo");
+    it.querySelector("input[type=checkbox]").checked = false;
+    it.querySelector(".uso input").value = "";
+  });
+  $("#paciente").value = "";
+  $("#obs").value = "";
+  contar();
+  recado("Ficha limpa.");
+});
+
+function recado(txt){
+  const a = $("#aviso");
+  a.textContent = txt;
+  a.style.display = "inline";
+  setTimeout(() => { a.style.display = "none"; }, 2500);
+}
+
+$("#data").value = new Date().toISOString().slice(0,10);
+contar();
+
+/* ---------- instalação na tela do celular ou do computador ---------- */
+let convite = null;
+const tira = $("#tira");
+const instalado = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+
+if(!instalado) tira.classList.add("ativa");
+
+window.addEventListener("beforeinstallprompt", e => {
+  e.preventDefault();
+  convite = e;
+});
+
+window.addEventListener("appinstalled", () => {
+  convite = null;
+  tira.classList.remove("ativa");
+});
+
+function abrirJanela(){ $("#janela").classList.add("ativa"); }
+function fecharJanela(){ $("#janela").classList.remove("ativa"); }
+
+$("#btInstalar").addEventListener("click", async () => {
+  if(convite){
+    convite.prompt();
+    const r = await convite.userChoice;
+    convite = null;
+    if(r && r.outcome === "accepted") tira.classList.remove("ativa");
+    return;
+  }
+  abrirJanela();
+});
+$("#btComo").addEventListener("click", abrirJanela);
+$("#btFechaJanela").addEventListener("click", fecharJanela);
+$("#janela").addEventListener("click", e => { if(e.target.id === "janela") fecharJanela(); });
+document.addEventListener("keydown", e => { if(e.key === "Escape") fecharJanela(); });
+$("#btFechaTira").addEventListener("click", () => tira.classList.remove("ativa"));
+
+/* funciona sem internet depois da primeira abertura */
+if("serviceWorker" in navigator){
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{}));
+}
+</script>
+</body>
+</html>
