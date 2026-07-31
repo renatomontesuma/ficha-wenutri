@@ -2,7 +2,7 @@
    Ao publicar uma versão nova do index.html, troque o número
    do CACHE abaixo. Isso força a atualização no celular das
    nutricionistas na próxima vez que abrirem com internet. */
-const CACHE = "ficha-wenutri-v12";
+const CACHE = "ficha-wenutri-v13";
 const BASICO = ["./", "./index.html", "./manifest.webmanifest", "./icone-192-v2.png", "./icone-512-v2.png"];
 
 self.addEventListener("install", e => {

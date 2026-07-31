@@ -518,7 +518,14 @@ function recado(txt){
   setTimeout(() => { a.style.display = "none"; }, 2500);
 }
 
-$("#data").value = new Date().toISOString().slice(0,10);
+/* data de hoje pelo relógio do aparelho.
+   Não use toISOString aqui: ela converte para UTC e, no Brasil,
+   depois das 21h a ficha já marcaria o dia seguinte. */
+function hojeLocal(){
+  const d = new Date(), z = n => String(n).padStart(2,"0");
+  return d.getFullYear() + "-" + z(d.getMonth()+1) + "-" + z(d.getDate());
+}
+$("#data").value = hojeLocal();
 contar();
 
 /* ---------- instalação na tela do celular ou do computador ---------- */
