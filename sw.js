@@ -2,11 +2,15 @@
    Ao publicar uma versão nova do index.html, troque o número
    do CACHE abaixo. Isso força a atualização no celular das
    nutricionistas na próxima vez que abrirem com internet. */
-const CACHE = "ficha-wenutri-v6";
-const BASICO = ["./", "./index.html", "./manifest.webmanifest", "./icone-192.png", "./icone-512.png"];
+const CACHE = "ficha-wenutri-v14";
+const BASICO = ["./", "./index.html", "./manifest.webmanifest", "./icone-192-v2.png", "./icone-512-v2.png"];
 
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(BASICO)).then(() => self.skipWaiting()));
+  e.waitUntil(
+    caches.open(CACHE)
+      .then(c => Promise.all(BASICO.map(u => c.add(u).catch(() => {}))))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener("activate", e => {
